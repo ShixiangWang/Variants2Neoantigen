@@ -3,7 +3,7 @@
 # Author: Shixiang Wang <wangshx@shanghaitech.edu.cn>
 # Update: 2018-4-9
 
-module load apps/perl/5.22.1
+# module load apps/perl/5.22.1
 # This load perl module from HPC
 
 maffiles=$1

@@ -36,7 +36,7 @@ if [ ! -d "$tn" ]; then
 fi  
 # transform
 echo "transforming..."
-$maf2vcf --input-maf $maffiles --output-dir $tn --ref-fasta $PATH_FASTA --per-tn-vcfs
+perl $maf2vcf --input-maf $maffiles --output-dir $tn --ref-fasta $PATH_FASTA --per-tn-vcfs
 echo "transform complete."
 
 echo "delete information column of normal samples..."
