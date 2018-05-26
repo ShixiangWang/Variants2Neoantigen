@@ -72,6 +72,8 @@ neofa_dir=$neo_dir/neofasta_dir
 fafiles=$(ls $neofa_dir | grep "\.fasta$")
 #db=~/wangshx/projects/data/iedb/iedb.fasta
 
+source activate $py_env
+
 echo "Run blastp on all neoantigen.fasta files under $neofa_dir ..."
 for fafile in $fafiles
 do
@@ -79,6 +81,8 @@ do
     printf "\rgenerate %s .." $xmlfile
     blastp -query $neofa_dir/$fafile -db $iedb -outfmt 5 -evalue 100000000 -gapopen 11 -gapextend 1  > $neofa_dir/$xmlfile
 done
+
+source deactivate $py_env
 
 # fitness model parameters
 a=26.

@@ -1,23 +1,67 @@
-# configure for maf2neoanitgen pipeline
+# Variants2neoanitgen pipeline
 
+To calculate neoantigen from [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format) or [MAF](https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/) (MAF-like) file. 
+
+## Concepts
+
+**VCF** and **MAF** files are the most popular text files used in bioinformatics for storing DNA variations. 
+
+[**Tumor antigens**](https://en.wikipedia.org/wiki/Antigen#Tumor_antigens) (We can *Neoantigens*) are those antigens that are presented by MHC class I or MHC class II molecules on the surface of tumor cells. Antigens found only on such cells are called tumor-specific antigens (TSAs) and generally result from a tumor-specific mutation. For human tumors without a viral etiology, **novel peptides** (neo-epitopes) are created by tumor-specific DNA alterations.
+
+What the pipeline do is provide a quick and easy way to predict neoantigens from variant record files - VCF, MAF or MAF-like files. This pipeline is powered by [VEP](http://asia.ensembl.org/info/docs/tools/vep/script/index.html), [pVACseq](http://pvactools.readthedocs.io/en/latest/pvacseq.html) and [vcf2maf toolkit](https://github.com/mskcc/vcf2maf) etc..
+
+>**Note**, you have provide HLA information file of samples when you want to predict neoantigens.
+
+## How it works
+
+[pVACseq](http://pvactools.readthedocs.io/en/latest/pvacseq.html) is a well established tool for predicting tumor-specific mutant peptides (neoantigens). However, it can only accept **VCF** file as input and generate one directory for one samples. This is not convenient to summary the results and expand this tool. Therefore, I build a pipeline to integrate [vcf2maf toolkit](https://github.com/mskcc/vcf2maf) with pVACseq, which translate MAF or MAF-like files to VCF firstly, and then call pVACseq to predict neoantigens and finally summary the data.
+
+**For now, you can use this pipeline to predict neoantigens by MAF file and sample specific HLA information.** VCF to neoantigens and maf-like file to neoantigens are need to be done. **Besides**, after calling neoantigens, you can compute Neoantigen Quality by NetMHC4.0. The method of neoantigen quality computation is published as [*A neoantigen fitness model predicts tumour response to checkpoint blockade immunotherapy*](https://www.nature.com/articles/nature24473).
+
+
+## Prerequisites
+
+Two main information you must have before you want to predict neoantigens, one is the patient-specific HLAs and the other is detail information of variants, at least have following columns which can be processed by [vcf2maf toolkit](https://github.com/mskcc/vcf2maf).
+
+```
+Chromosome  Start_Position  Reference_Allele    Tumor_Seq_Allele2	Tumor_Sample_Barcode
+1	3599659	C	T	TCGA-A1-A0SF-01
+1	6676836	A	AGC	TCGA-A1-A0SF-01
+1	7886690	G	A	TCGA-A1-A0SI-01
+```
+
+**Once you have these two information, you can prepare to configure the pipeline now before you use it**.
 
 ### Install conda
 
 You can download conda by web brower, Anaconda link is <https://www.anaconda.com/download/> or `curl`, `wget` command tool.
+
+I recommend you install the python2 version conda, it can provide you a python2.7 default environment. Some configuration in our pipeline will use python2.7.
 
 Install conda, run your file use `sh`
 
 for example
 
 ```sh
-sh Anaconda3-5.1.0-Linux-x86_64.sh
+wget -c https://repo.anaconda.com/archive/Anaconda2-5.1.0-Windows-x86_64.exe
+sh Anaconda2-5.1.0-Linux-x86_64.sh
 ```
 
 then follow the commands.
 
-## Configuration
+>If you find any problem about installing conda, you can google it, the anaconda is very popular, so many problem you encounter basically have been fixed or discussed.
+
+### Configuration flows
 
 ```sh
+# install R and biopython
+# these used to calculate neoantigen quality
+conda install -c r r-essentials 
+
+conda install biopython
+
+# create a python 3.5 environment, the pvactools need python 3.5
+# muliple bioinformatics tools will be installed in this environment too, like blast, samtools etc.
 conda create --name pipeline python=3.5
 ```
 
@@ -97,3 +141,7 @@ perl maf2maf.pl --input-maf tests/test.maf --output-maf tests/test.vep.maf --ref
 # make sure tcsh and gawk are installed
 
 ```
+
+## License
+
+GPL3
