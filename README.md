@@ -75,7 +75,7 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
 
-conda install -c bioconda samtools bcftools ucsc-liftover
+conda install -c bioconda samtools bcftools ucsc-liftover blast
 
 # vcf2maf tool
 cd ~
