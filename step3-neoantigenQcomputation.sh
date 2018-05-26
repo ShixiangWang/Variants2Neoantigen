@@ -97,8 +97,9 @@ py_dir=$ShellDIR/python          # python script used for calc neoantigen qualit
 # Compute Neoantigen Quality
 echo
 echo "Begin calculating neoantigen quality for all samples..."
-#source activate $py_env
+
+source activate $py2_env
 python2.7 $py_dir/main.py $neo_dir/neoantigens.txt $neofa_dir $a $k $neo_dir/neoantigen_Quality.txt
-#source deactivate $py_env
+source deactivate $py2_env
 
 echo -e "\033[32m Neoantigen Quality Computation finished successfully!!! \033[0m" 

@@ -56,9 +56,13 @@ then follow the commands.
 ```sh
 # install R and biopython
 # these used to calculate neoantigen quality
-conda install -c r r-essentials 
 
+# if your conda default env is python 2.7, just
+conda install -c r r-essentials 
 conda install biopython
+
+# if your conda default env is not python2.7, please create a python2.7 env first, then run commands as above
+# conda create --name py2 python=2.7
 
 # create a python 3.5 environment, the pvactools need python 3.5
 # muliple bioinformatics tools will be installed in this environment too, like blast, samtools etc.
