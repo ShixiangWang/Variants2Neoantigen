@@ -2,8 +2,6 @@
 # If you do not know what it means, DO NOT change it!!!
 # If you want help, free to send email to <wangshx@shanghaitech.edu.cn> 
 
-####### <<<<<< Location of this configure and main shell script files
-
 ####### <<<<<< Location of Files
 ##maffiles=$(pwd)/*.maf                       # location of maf file
 ##OUTPUT=$(pwd)/neoantigen_results
@@ -28,5 +26,3 @@ assembly_version="GRCh37"                               # genome build version, 
 method="NetMHC"                                         # multiple methods separated by space, like "NetMHC PickPocket NetMHCcons NNalign", but multiple method is not recommend
 epitope_len="9"                                         # multiple length separated by comma, like "9,10"
 
-## check exist of command
-## type foo >/dev/null 2>&1 || { echo >&2 "I require foo but it's not installed.  Aborting."; exit 1; }

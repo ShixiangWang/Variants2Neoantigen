@@ -53,6 +53,15 @@ then follow the commands.
 
 ### Configuration flows
 
+* Clone Variants2neoanitgen pipeline from Github.
+
+```
+git clone https://github.com/ShixiangWang/Variants2Neoantigen.git
+```
+
+
+* Install and configure requirements
+
 ```sh
 # install R and biopython
 # these used to calculate neoantigen quality
@@ -114,7 +123,8 @@ perl convert_cache.pl --species homo_sapiens --version 92_GRCh37 --dir $VEP_DATA
 export PERL5LIB=$HOME/ensembl-vep:$PERL5LIB
 export PATH=$HOME/ensembl-vep/htslib:$PATH
 
-# cp ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz to ~/.vep
+# cp ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz* to ~/.vep
+# You can download from Variants2Neoantigen/data/ dir or generate it following <https://gist.github.com/ckandoth/d135aec7afd8edd73f572584cbf23f5c> (Just content about this is okay)
 
 # test vep
 perl vep --species homo_sapiens --assembly GRCh37 --offline --no_progress --no_stats --sift b --ccds --uniprot --hgvs --symbol --numbers --domains --gene_phenotype --canonical --protein --biotype --uniprot --tsl --pubmed --variant_class --shift_hgvs 1 --check_existing --total_length --allele_number --no_escape --xref_refseq --failed 1 --vcf --minimal --flag_pick_allele --pick_order canonical,tsl,biotype,rank,ccds,length --dir $VEP_DATA --fasta $VEP_DATA/homo_sapiens/92_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz --input_file examples/homo_sapiens_GRCh37.vcf --output_file example_GRCh37.vep.vcf --polyphen b --af --af_1kg --regulatory --custom $VEP_DATA/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz,ExAC,vcf,exact,1,AC,AN
@@ -122,7 +132,8 @@ perl vep --species homo_sapiens --assembly GRCh37 --offline --no_progress --no_s
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/
 
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
-
+# make sure conda-forge is on the top
+# then
 conda install -c bioconda samtools bcftools ucsc-liftover blast
 
 # vcf2maf tool
@@ -145,6 +156,74 @@ perl maf2maf.pl --input-maf tests/test.maf --output-maf tests/test.vep.maf --ref
 # make sure tcsh and gawk are installed
 
 ```
+
+## Usage
+
+For now.
+
+First add path to your `~/.bashrc` so you can run the script from any location.
+
+
+```sh
+./add_path.sh
+```
+
+Modify argument's template file `configureArgs` under `Variants2Neoantigen` directory. Only change the difference between you and this file following the comments.
+
+```
+# This file is used to configure default parameters of neoantigens computation
+# If you do not know what it means, DO NOT change it!!!
+# If you want help, free to send email to <wangshx@shanghaitech.edu.cn> 
+
+####### <<<<<< Location of Files
+##maffiles=$(pwd)/*.maf                       # location of maf file
+##OUTPUT=$(pwd)/neoantigen_results
+CACHE_VEP=~/.vep/                                           # directory path of ensembl vep cache
+PATH_FASTA=~/.vep/homo_sapiens/92_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa           
+                                                            # path of reference fasta file
+iedb=~/Variants2Neoantigen/data/iedb/iedb.fasta                # iedb database used for blastp
+##PATH_HLA=~/wangshx/projects/data/                         # directory path to patient specific HLA alleles file
+
+####### <<<<<< Location of Softwares, python environment and input arguments
+py_env=pipeline                                                # python environment, which can run pvacseq 
+py2_env=py2     # python2.7 
+
+maf2vcf=~/vcf2maf/maf2vcf.pl      # path of maf2vcf.pl script
+PATH_VEP=~/ensembl-vep/           # directory path of ensembl vep software
+PATH_VEP_PLUGINS=~/VEP_plugins    # directory path of ensembl vep plugins
+PATH_MHC=~/MHC                   # directory path of iedb local installation
+vep_run=$PATH_VEP/vep
+
+assembly_version="GRCh37"                               # genome build version, must be consistent in the analysis
+method="NetMHC"                                         # multiple methods separated by space, like "NetMHC PickPocket NetMHCcons NNalign", but multiple method is not recommend
+epitope_len="9"                                         # multiple length separated by comma, like "9,10"
+
+```
+
+Run
+
+```sh
+runNEO input.maf output_dir input_HLA.tsv
+```
+
+the `input_HLA.tsv` should like
+
+```
+Tumor_Sample_Barcode	HLA
+sample1	HLA-A*30:01,HLA-B*39:01,HLA-B*38:01,HLA-C*12:03,HLA-A*25:01
+sample2	HLA-A*31:01,HLA-B*51:01,HLA-A*68:01,HLA-B*35:08,HLA-C*15:02,HLA-C*04:01
+sample3	HLA-A*02:01,HLA-B*44:03,HLA-B*07:02,HLA-A*29:02,HLA-C*16:01,HLA-C*07:02
+sample4	HLA-B*15:01,HLA-A*02:01,HLA-B*38:01,HLA-C*03:03,HLA-C*12:03,HLA-A*23:01
+sample5	HLA-B*44:03,HLA-B*40:01,HLA-C*03:04,HLA-A*24:02,HLA-A*23:01,HLA-C*02:02
+sample6	HLA-A*02:01,HLA-B*13:02,HLA-A*30:01,HLA-C*06:02
+sample1	HLA-B*18:01,HLA-B*35:08,HLA-A*24:03,HLA-C*12:03,HLA-C*04:01
+sample8	HLA-A*68:01,HLA-B*40:01,HLA-C*04:01,HLA-A*68:02,HLA-B*53:01,HLA-C*03:19
+```
+
+two column, the first is the sample id matched with `maf` file, the second is the HLA, they are `tab` separated (tsv file, the header can be none).
+
+
+All neoantigen results are under `output_dir/neoantigens/`.
 
 ## License
 
