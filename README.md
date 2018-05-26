@@ -168,7 +168,7 @@ First add path to your `~/.bashrc` so you can run the script from any location.
 ./add_path.sh
 ```
 
-Modify argument's template file `configureArgs` under `Variants2Neoantigen` directory. Only change the difference between you and this file following the comments.
+Modify argument's template file `configureArgs` under `Variants2Neoantigen` directory. Only change the difference between you and this file by following the comments.
 
 ```
 # This file is used to configure default parameters of neoantigens computation
@@ -216,7 +216,6 @@ sample3	HLA-A*02:01,HLA-B*44:03,HLA-B*07:02,HLA-A*29:02,HLA-C*16:01,HLA-C*07:02
 sample4	HLA-B*15:01,HLA-A*02:01,HLA-B*38:01,HLA-C*03:03,HLA-C*12:03,HLA-A*23:01
 sample5	HLA-B*44:03,HLA-B*40:01,HLA-C*03:04,HLA-A*24:02,HLA-A*23:01,HLA-C*02:02
 sample6	HLA-A*02:01,HLA-B*13:02,HLA-A*30:01,HLA-C*06:02
-sample1	HLA-B*18:01,HLA-B*35:08,HLA-A*24:03,HLA-C*12:03,HLA-C*04:01
 sample8	HLA-A*68:01,HLA-B*40:01,HLA-C*04:01,HLA-A*68:02,HLA-B*53:01,HLA-C*03:19
 ```
 
