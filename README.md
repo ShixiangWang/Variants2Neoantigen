@@ -10,7 +10,7 @@ To calculate neoantigen from [VCF](https://en.wikipedia.org/wiki/Variant_Call_Fo
 
 What the pipeline do is provide a quick and easy way to predict neoantigens from variant record files - VCF, MAF or MAF-like files. This pipeline is powered by [VEP](http://asia.ensembl.org/info/docs/tools/vep/script/index.html), [pVACseq](http://pvactools.readthedocs.io/en/latest/pvacseq.html) and [vcf2maf toolkit](https://github.com/mskcc/vcf2maf) etc..
 
->**Note**, you have provide HLA information file of samples when you want to predict neoantigens.
+>**Note**, you should have HLA information file of samples when you want to predict neoantigens.
 
 ## How it works
 
