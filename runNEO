@@ -1,0 +1,49 @@
+#!/bin/bash
+# This is the main script of neoantigen/NQ generation pipeline
+# Author: Shixiang Wang <wangshx@shanghaitech.edu.cn>
+# Update: 2018-4-9
+
+module load apps/perl/5.22.1
+# This load perl module from HPC
+
+maffiles=$1
+OUTPUT=$2
+PATH_HLA=$3
+# generate a args file
+ShellDIR=$(cd `dirname $0`; pwd)
+#ShellDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo --------------------
+echo -- Pipeline Begin --
+echo --------------------
+
+source $ShellDIR/configureArgs
+cat $ShellDIR/configureArgs | grep -v "^##" | grep -v "ShellDIR" > $(pwd)/inputArgs.txt
+echo "maffiles=$maffiles" >> $(pwd)/inputArgs.txt
+echo "OUTPUT=$OUTPUT" >> $(pwd)/inputArgs.txt
+echo "PATH_HLA=$PATH_HLA" >>  $(pwd)/inputArgs.txt
+echo "ShellDIR=$ShellDIR" >> $(pwd)/inputArgs.txt
+
+# check if software commands exist
+type blastp >/dev/null 2>&1 || { echo >&2 "blastp is need but it's not installed.  Aborting."; exit 1; }
+#type pvacseq >/dev/null 2>&1 || { echo >&2 "pvacseq is need but it's not installed.  Aborting."; exit 1; }
+type samtools >/dev/null 2>&1 || { echo >&2 "samtools is need but it's not installed.  Aborting."; exit 1; }
+######## Neoantigen Computation pipeline ########
+
+#step1: transform maf files to vcf files
+$ShellDIR/step1-transformMaf2VCF.sh
+
+# step2: run neoantigen computation, choose only one way as follows to run, other line should be commented
+
+# serial way
+#$ShellDIR/step2-NEOcomputation_serial.sh 
+
+# parallel way
+$ShellDIR/step2-NEOcomputation_parallel.sh 
+
+# step3: calculate neoantigen quality
+$ShellDIR/step3-neoantigenQcomputation.sh
+
+echo --------------------
+echo -- Pipeline End --
+echo --------------------
+
