@@ -79,7 +79,7 @@ class Aligner(object):
                                         self.maximum_alignment[nid]=species                                    
                                         maxscore[nid]=al[2]                     
         except ValueError:
-            print("error")
+            print "error"
             pass
         f.close()
 
