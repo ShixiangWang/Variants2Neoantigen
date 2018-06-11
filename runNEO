@@ -40,6 +40,9 @@ $ShellDIR/step1-transformMaf2VCF.sh
 # parallel way
 $ShellDIR/step2-NEOcomputation_parallel.sh 
 
+# step3: summary neoantigen results
+# $ShellDIR/step3-summaryNeoantigens.sh
+
 # step3: calculate neoantigen quality
 $ShellDIR/step3-neoantigenQcomputation.sh
 
