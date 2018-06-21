@@ -57,7 +57,8 @@ runPVACseq() {
         $(grep $sampleID $PATH_HLA | awk '{print $2}') \
         $method $res_dir \
         -e $epitope_len \
-        -t -a sample_name \
+        -a sample_name \
+        -d 500
         --iedb-install-directory $PATH_MHC 
        
     source deactivate $py_env    
