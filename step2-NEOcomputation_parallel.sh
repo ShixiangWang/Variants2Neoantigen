@@ -58,7 +58,7 @@ runPVACseq() {
         $method $res_dir \
         -e $epitope_len \
         -a sample_name \
-        -d 500
+        -d 500 \
         --iedb-install-directory $PATH_MHC 
        
     source deactivate $py_env    
