@@ -185,7 +185,7 @@ iedb=~/Variants2Neoantigen/data/iedb/iedb.fasta                # iedb database u
 ##PATH_HLA=~/wangshx/projects/data/                         # directory path to patient specific HLA alleles file
 
 ####### <<<<<< Location of Softwares, python environment and input arguments
-py_env=pipeline                                                # python environment, which can run pvacseq 
+py_env=pipeline                                                # python environment, which can run pvacseq (Python 3.5) 
 py2_env=py2     # python2.7 
 
 maf2vcf=~/vcf2maf/maf2vcf.pl      # path of maf2vcf.pl script

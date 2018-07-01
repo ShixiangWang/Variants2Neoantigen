@@ -1,0 +1,87 @@
+#! /usr/bin/env bash
+# Generate configure file before computation.
+# input file and HLA must provide
+
+####################################
+### Parsing option using getopts ###
+####################################
+
+# i or --input: input maf (or vcf -> enhancement)path
+# o or --output: output directory path
+# --HLA: HLA file path
+# --mode: maf or vcf ? -> enhancement
+# --seq: workflow? -> enhancement
+optspec=":hi:o:-:"
+while getopts "$optspec" optchar; do
+    case "${optchar}" in
+        -)
+            case "${OPTARG}" in
+                loglevel)
+                    val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                    echo "Parsing option: '--${OPTARG}', value: '${val}'" >&2;
+                    ;;
+                #loglevel=*)
+                #    val=${OPTARG#*=}
+                #    opt=${OPTARG%=$val}
+                #    echo "Parsing option: '--${opt}', value: '${val}'" >&2
+                #    ;;
+                HLA)
+                    val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                    echo "The HLA path is $val";
+					PATH_HLA=$val
+                    ;;				
+                *)
+                    if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
+                        echo "Unknown option --${OPTARG}" >&2
+                    fi
+                    ;;
+            esac;;
+        h)
+            echo "usage: $0 [-i <input_file>] [-o <output_dir>] [--HLA <HLA_file>]" >&2
+            exit 2
+            ;;
+        i)
+            echo "The input file path is $OPTARG"
+			maffiles=$OPTARG
+            ;;
+		o)
+            echo "The output directory path is $OPTARG"
+			OUTPUT=$OPTARG
+            ;;	
+        *)
+            if [ "$OPTERR" != 1 ] || [ "${optspec:0:1}" = ":" ]; then
+                echo "Non-option argument: '-${OPTARG}'" >&2
+		exit 2
+            fi
+            ;;
+    esac
+done
+
+# if variable name is not set, show help info
+if [ ! -n "$maffiles" ]; then
+	runNEO_prepare -h
+	exit
+fi
+
+if [ ! -n "$OUTPUT" ]; then
+	OUTPUT=`pwd`
+fi
+
+if [ ! -n "$PATH_HLA" ]; then
+	runNEO_prepare -h
+	exit
+fi
+
+# generate a args file
+echo "Configuration file generating..."
+ShellDIR=$(cd `dirname $0`; pwd)
+
+source $ShellDIR/configureArgs
+cat $ShellDIR/configureArgs | grep -v "^##" | grep -v "ShellDIR" > $(pwd)/inputArgs.txt
+echo "maffiles=$maffiles" >> $(pwd)/inputArgs.txt
+echo "OUTPUT=$OUTPUT" >> $(pwd)/inputArgs.txt
+echo "PATH_HLA=$PATH_HLA" >>  $(pwd)/inputArgs.txt
+echo "ShellDIR=$ShellDIR" >> $(pwd)/inputArgs.txt
+
+echo "Configure file inputArgs.txt has been successfully generated in current directory."
+echo "Please modify nessary arguments and run runNEO_run to start the pipeline."

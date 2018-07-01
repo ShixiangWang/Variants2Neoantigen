@@ -1,0 +1,38 @@
+#! /usr/bin/env bash
+# Run neoantigen computation, which will use configure file in current directory.
+
+
+# load arguments from configure file
+source $(pwd)/inputArgs.txt
+
+source activate $py_env
+# check if software commands exist
+type blastp >/dev/null 2>&1 || { echo >&2 "blastp is need but it's not installed in $py_env environment .  Aborting."; exit 1; }
+type pvacseq >/dev/null 2>&1 || { echo >&2 "pvacseq is need but it's not installed in $py_env environment.  Aborting."; exit 1; }
+type samtools >/dev/null 2>&1 || { echo >&2 "samtools is need but it's not installed in $py_env environment.  Aborting."; exit 1; }
+
+echo ----------------------
+echo --- Pipeline Begin ---
+echo ----------------------
+
+#step1: transform maf files to vcf files
+$ShellDIR/step1-transformMaf2VCF.sh
+
+# step2: run neoantigen computation, choose only one way as follows to run, other line should be commented
+
+# serial way
+#$ShellDIR/step2-NEOcomputation_serial.sh 
+
+# parallel way
+$ShellDIR/step2-NEOcomputation_parallel.sh 
+
+# step3: summary neoantigen results
+# $ShellDIR/step3-summaryNeoantigens.sh
+
+# step3: calculate neoantigen quality
+$ShellDIR/step3-neoantigenQcomputation.sh
+
+echo --------------------
+echo --- Pipeline End ---
+echo --------------------
+

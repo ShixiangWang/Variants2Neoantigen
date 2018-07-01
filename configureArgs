@@ -1,15 +1,12 @@
 # This file is used to configure default parameters of neoantigens computation
-# If you do not know what it means, DO NOT change it!!!
-# If you want help, free to send email to <wangshx@shanghaitech.edu.cn> 
+# Please change the content following the provided format
+# If you want help, free to send email to <wangshx@shanghaitech.edu.cn> or open an issue at <https://github.com/ShixiangWang/Variants2Neoantigen/issues>
 
 ####### <<<<<< Location of Files
-##maffiles=$(pwd)/*.maf                       # location of maf file
-##OUTPUT=$(pwd)/neoantigen_results
 CACHE_VEP=~/.vep/                                           # directory path of ensembl vep cache
 PATH_FASTA=~/.vep/homo_sapiens/92_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa           
                                                             # path of reference fasta file
-iedb=~/Variants2Neoantigen/data/iedb/iedb.fasta                # iedb database used for blastp
-##PATH_HLA=~/wangshx/projects/data/                         # directory path to patient specific HLA alleles file
+iedb=~/Variants2Neoantigen/data/iedb/iedb.fasta             # iedb database used for blastp
 
 ####### <<<<<< Location of Softwares, python environment and input arguments
 py_env=pipeline                                                # python environment, which can run pvacseq 
