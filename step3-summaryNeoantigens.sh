@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
-# Merge neoantigen files and transform the data then compute Neoantigen Quality
+# Summary neoantigen result and not run neoantigen quality computation
 
 echo ---------------------------------
-echo -- Compute Neoantigen Quality  --
+echo -- Summary Neoantigen Results  --
 echo ---------------------------------
 
 # load arguments
@@ -62,3 +62,6 @@ fi
 echo
 echo "===> Process of merging Neoantigen files complete successfully!"
 echo "$i files have been merged into $neo_dir/merged_neoantigens.tsv."
+
+echo
+echo "DONE!"

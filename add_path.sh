@@ -2,7 +2,7 @@
 # add Variants2neoantigen path to ~/.bashrc
 
 echo "Add permission for scripts..."
-chmod u+x *.sh runNEO
+chmod u+x *.sh runNEO*
 
 echo "Add path for Variants2neoantigen tool..."
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

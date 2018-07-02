@@ -1,9 +1,45 @@
 #! /usr/bin/env bash
 # Run neoantigen computation, which will use configure file in current directory.
 
+optspec=":h-:"
+while getopts "$optspec" optchar; do
+    case "${optchar}" in
+        -)
+            case "${OPTARG}" in
+                NQ)
+                    runNQ=True
+                    ;;
+                parallel)
+                    runParallel=True
+                    ;;
+                *)
+                    if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
+                        echo "Unknown option --${OPTARG}" >&2
+                    fi
+                    ;;
+            esac;;
+        h)
+            echo "usage: $0 [--NQ] [--parallel]" >&2
+            exit 2
+            ;;	
+        *)
+            if [ "$OPTERR" != 1 ] || [ "${optspec:0:1}" = ":" ]; then
+                echo "Non-option argument: '-${OPTARG}'" >&2
+		exit 2
+            fi
+            ;;
+    esac
+done
+
 
 # load arguments from configure file
-source $(pwd)/inputArgs.txt
+
+if [ -f $(pwd)/inputArgs.txt ]; then
+    source $(pwd)/inputArgs.txt
+else
+    echo >&2 "$pwd/inputArgs.txt is not exist in current directory. Aborting.."
+    exit 1
+fi
 
 source activate $py_env
 # check if software commands exist
@@ -15,22 +51,27 @@ echo ----------------------
 echo --- Pipeline Begin ---
 echo ----------------------
 
-#step1: transform maf files to vcf files
+# step1: transform maf files to vcf files
 $ShellDIR/step1-transformMaf2VCF.sh
 
 # step2: run neoantigen computation, choose only one way as follows to run, other line should be commented
+if [ ! -n "$runParallel" ]; then
+    # serial way
+    $ShellDIR/step2-NEOcomputation_serial.sh 
+else
+    # parallel way
+    $ShellDIR/step2-NEOcomputation_parallel.sh
+fi
 
-# serial way
-#$ShellDIR/step2-NEOcomputation_serial.sh 
 
-# parallel way
-$ShellDIR/step2-NEOcomputation_parallel.sh 
+if [ ! -n "$runNQ" ]; then
+    # step3: summary neoantigen results
+	$ShellDIR/step3-summaryNeoantigens.sh
+else 
+    # step3: calculate neoantigen quality
+    $ShellDIR/step3-neoantigenQcomputation.sh
+fi
 
-# step3: summary neoantigen results
-# $ShellDIR/step3-summaryNeoantigens.sh
-
-# step3: calculate neoantigen quality
-$ShellDIR/step3-neoantigenQcomputation.sh
 
 echo --------------------
 echo --- Pipeline End ---

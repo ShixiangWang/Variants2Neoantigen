@@ -20,11 +20,6 @@ while getopts "$optspec" optchar; do
                     val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
                     echo "Parsing option: '--${OPTARG}', value: '${val}'" >&2;
                     ;;
-                #loglevel=*)
-                #    val=${OPTARG#*=}
-                #    opt=${OPTARG%=$val}
-                #    echo "Parsing option: '--${opt}', value: '${val}'" >&2
-                #    ;;
                 HLA)
                     val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
                     echo "The HLA path is $val";
