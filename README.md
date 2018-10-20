@@ -2,11 +2,15 @@
 
 To calculate neoantigen from [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format) or [MAF](https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/) (MAF-like) file. 
 
+Now pipeline has been implemented and tested is 
+
+* MAF or MAF-like file -> MAF to VCF (by maf2vcf.pl) -> annotated VCF (by VEP) -> single sample neoantigen information (by pvacseq) -> summary neoantigen for all samples (by shell script) -> neoantigen quality (by R script, Shell script and Python script which from paper neoantigen fitness model).
+
 ## Concepts
 
 **VCF** and **MAF** files are the most popular text files used in bioinformatics for storing DNA variations. 
 
-[**Tumor antigens**](https://en.wikipedia.org/wiki/Antigen#Tumor_antigens) (We can *Neoantigens*) are those antigens that are presented by MHC class I or MHC class II molecules on the surface of tumor cells. Antigens found only on such cells are called tumor-specific antigens (TSAs) and generally result from a tumor-specific mutation. For human tumors without a viral etiology, **novel peptides** (neo-epitopes) are created by tumor-specific DNA alterations.
+[**Tumor antigens**](https://en.wikipedia.org/wiki/Antigen#Tumor_antigens) (also known as *Neoantigens*) are those antigens that are presented by MHC class I or MHC class II molecules on the surface of tumor cells. Antigens found only on such cells are called tumor-specific antigens (TSAs) and generally result from a tumor-specific mutation. For human tumors without a viral etiology, **novel peptides** (neo-epitopes) are created by tumor-specific DNA alterations.
 
 What the pipeline do is provide a quick and easy way to predict neoantigens from variant record files - VCF, MAF or MAF-like files. This pipeline is powered by [VEP](http://asia.ensembl.org/info/docs/tools/vep/script/index.html), [pVACseq](http://pvactools.readthedocs.io/en/latest/pvacseq.html) and [vcf2maf toolkit](https://github.com/mskcc/vcf2maf) etc..
 
