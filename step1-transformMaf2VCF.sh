@@ -49,7 +49,7 @@ fi
 for vcf in $(ls $tn | grep "vs")
 do
     #sample=$(echo $vcf | cut -b 1-15)
-    sample=$(echo $vcf | sed -E 's/^([^\s]{1,})_vs.*/\1/')
+    sample=$(echo $vcf | sed -E 's/^(.*)_vs.*/\1/')
     printf "\rprocess %s .." $sample
     cat $tn/$vcf | awk 'BEGIN{FS="\t";OFS="\t"}{if($1 ~ /^##]/){print $0}else{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10}}' > $sgvcf/$sample".vcf"
 done
