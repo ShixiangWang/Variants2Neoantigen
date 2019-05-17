@@ -15,7 +15,7 @@ py2_env=/public/data/.neopip/miniconda/envs/py27     # python2.7
 maf2vcf=maf2vcf.pl      # path of maf2vcf.pl script
 PATH_VEP=/public/data/.neopip/miniconda/share/ensembl-vep-96.0-0/           # directory path of ensembl vep software
 PATH_VEP_PLUGINS=~/VEP_plugins    # directory path of ensembl vep plugins
-PATH_MHC=/public/data/.neopip/                   # directory path of iedb local installation
+PATH_MHC=/public/data/.neopip/iedb                   # directory path of iedb local installation
 vep_run=$PATH_VEP/vep
 ##vep_filter=$PATH_VEP/filter_vep
 
