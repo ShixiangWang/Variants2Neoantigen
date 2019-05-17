@@ -3,7 +3,7 @@
 # If you want help, free to send email to <wangshx@shanghaitech.edu.cn> or open an issue at <https://github.com/ShixiangWang/Variants2Neoantigen/issues>
 
 ####### <<<<<< Location of Files
-CACHE_VEP=public/data/.neopip/vep/                                           # directory path of ensembl vep cache
+CACHE_VEP=/public/data/.neopip/vep/                                           # directory path of ensembl vep cache
 PATH_FASTA=/public/data/.neopip/vep/homo_sapiens/91_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa           
                                                             # path of reference fasta file
 iedb=~/Variants2Neoantigen/data/iedb/iedb.fasta             # iedb database used for blastp
