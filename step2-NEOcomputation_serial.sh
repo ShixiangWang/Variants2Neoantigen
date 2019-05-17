@@ -31,7 +31,7 @@ do
     printf "\rprocess %s ..\n" $sampleID
     # step 1: annotate every sample with VEP, and filter (ONLY "PASS" can be used in downstream)
     $vep_run --input_file $sgvcf/$filename --format vcf --output_file stdout \
-             --vcf --symbol --terms SO --plugin Downstream --plugin Wildtype --dir_plugins $PATH_VEP_PLUGINS --assembly $assembly_version --fasta $PATH_FASTA --dir_cache $CACHE_VEP --offline --pick --force_overwrite \
+             --vcf --symbol --terms SO --plugin Downstream --plugin Wildtype --dir_plugins $PATH_VEP_PLUGINS --assembly $assembly_version --fasta $PATH_FASTA --dir_cache $CACHE_VEP --offline --cache_version 91 --pick --force_overwrite \
              > $annotated_dir/$sampleID"_annotated_filterd.vcf"
              #| $vep_filter --format vcf --force_overwrite --filter "(FILTER is PASS)" --output_file $annotated_dir/$sampleID"_annotated_filterd.vcf"
     
