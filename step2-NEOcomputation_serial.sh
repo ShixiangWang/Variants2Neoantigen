@@ -27,6 +27,7 @@ echo -e "\033[32m Begin of VEP and pVACseq pipeline... \033[0m"
 
 for filename in $filenames
 do
+    source activate $py_env
     sampleID=$(echo $filename | sed -E 's/(.*)\.vcf$/\1/')
     printf "\rprocess %s ..\n" $sampleID
     # step 1: annotate every sample with VEP, and filter (ONLY "PASS" can be used in downstream)
@@ -37,7 +38,7 @@ do
     
     
     # step 2: run pvacseq
-    source activate $py_env
+    
     res_dir=$pvacseqRes/"res_"$sampleID    
     # a directory can only store one sample result !!!!!!!!
     pvacseq run \
