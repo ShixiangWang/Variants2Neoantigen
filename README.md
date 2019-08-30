@@ -1,6 +1,6 @@
 # Variants2neoanitgen pipeline
 
-To calculate neoantigen from [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format) or [MAF](https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/) (MAF-like) file. 
+To calculate neoantigen from ~~[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)~~ or [MAF](https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/) (MAF-like) file. 
 
 Now pipeline has been implemented and tested is 
 
@@ -265,4 +265,4 @@ All neoantigen results are under `output_dir/neoantigens/`.
 
 ## License
 
-GPL3
+GPL-3 &copy;ShixiangWang
